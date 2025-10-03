@@ -36,6 +36,7 @@
     },
     "homepage": "https://github.com/sambit-innofied/laravel-blog#readme",
     "dependencies": {
+        "@popperjs/core": "^2.11.8",
         "bootstrap": "^5.3.8",
         "jquery": "^3.7.1"
     }
