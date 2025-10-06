@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('home', [
         "title" => "My Blog",
+        "page_length" => 10,
+        "total_blogs" => 11,
+        "page_number" => 1,
 
         "blogs" => [
             [
@@ -43,9 +46,9 @@ Route::get('/', function () {
                 "description" => "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi dolor officia, architecto sapiente optio earum.",
                 "tags" => "newyork,building,street"
             ]
-            ], 
+        ],
 
-            "trending" => [
+        "trending" => [
             [
                 "url" => "/",
                 "is_trending" => true,
@@ -82,8 +85,8 @@ Route::get('/', function () {
                 "description" => "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi dolor officia, architecto sapiente optio earum.",
                 "tags" => "newyork,building,street"
             ]
-            ],
-            "recent" => [
+        ],
+        "recent" => [
             [
                 "url" => "/",
                 "is_trending" => true,
@@ -120,6 +123,21 @@ Route::get('/', function () {
                 "description" => "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi dolor officia, architecto sapiente optio earum.",
                 "tags" => "newyork,building,street"
             ]
+        ],
+
+        "tags" => [
+            [
+                "url" => "/",
+                "name" => "laravel"
             ],
+            [
+                "url" => "/",
+                "name" => "Amazon"
+            ],
+            [
+                "url" => "/",
+                "name" => "COURSE       "
+            ],
+        ]
     ]);
 });
