@@ -4,134 +4,39 @@ declare(strict_types=1);
 
 namespace App\Modules\Home;
 
+use App\Modules\Blogs\BlogsService;
+use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationData;
 
 class HomeService
 {
+    const PAGE_LENGTH = 10;
+
+    public function __construct(private readonly BlogsService $service)
+    {
+
+    }
+
     public function home(Request $request): array
     {
-        $pageNumber = $request->query("page", 1);
+        $totalCount = $this->service->getToTotalCount();
+        $page = $this->getPageNumber($request, $totalCount);
+        $blogs = $this->service->UIList($page, self::PAGE_LENGTH);
+
         return [
             "title" => "My Blog",
-            "page_length" => 10,
-            "total_blogs" => 11,
-            "page_number" => 1,
+            "page_length" => self::PAGE_LENGTH,
+            "total_blogs" => $totalCount,
+            "page_number" => $page,
 
-            "blogs" => [
-                [
-                    "url" => "/",
-                    "is_trending" => true,
-                    "author" => "Sambit Sarkar",
-                    "author_image_url" => "https://avatars.githubusercontent.com/u/87202351?v=4",
-                    "image_url_potrait" => "https://fastly.picsum.photos/id/299/300/350.jpg?hmac=w9b4w232XL4IUBN3jok3KfxDBkntCT5NdUPUpmnooQY",
-                    "image_url_landscape" => "https://fastly.picsum.photos/id/319/360/160.jpg?hmac=NLWFlVNpsj8z59NQlo7KqTjGlQP2Ab0emA-xqHQ3YAA",
-                    "title" => "Laravel Websockets | Chat Application",
-                    "date" => "October 06, 2022",
-                    "description" => "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi dolor officia, architecto sapiente optio earum.",
-                    "tags" => "newyork,building,street"
-                ],
-                [
-                    "url" => "/",
-                    "is_trending" => true,
-                    "author" => "Sambit Sarkar",
-                    "author_image_url" => "https://avatars.githubusercontent.com/u/87202351?v=4",
-                    "image_url_potrait" => "https://fastly.picsum.photos/id/299/300/350.jpg?hmac=w9b4w232XL4IUBN3jok3KfxDBkntCT5NdUPUpmnooQY",
-                    "image_url_landscape" => "https://fastly.picsum.photos/id/319/360/160.jpg?hmac=NLWFlVNpsj8z59NQlo7KqTjGlQP2Ab0emA-xqHQ3YAA",
-                    "title" => "Laravel Websockets | Chat Application",
-                    "date" => "October 06, 2022",
-                    "description" => "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi dolor officia, architecto sapiente optio earum.",
-                    "tags" => "newyork,building,street"
-                ],
-                [
-                    "url" => "/",
-                    "is_trending" => true,
-                    "author" => "Sambit Sarkar",
-                    "author_image_url" => "https://avatars.githubusercontent.com/u/87202351?v=4",
-                    "image_url_potrait" => "https://fastly.picsum.photos/id/299/300/350.jpg?hmac=w9b4w232XL4IUBN3jok3KfxDBkntCT5NdUPUpmnooQY",
-                    "image_url_landscape" => "https://fastly.picsum.photos/id/319/360/160.jpg?hmac=NLWFlVNpsj8z59NQlo7KqTjGlQP2Ab0emA-xqHQ3YAA",
-                    "title" => "Laravel Websockets | Chat Application",
-                    "date" => "October 06, 2022",
-                    "description" => "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi dolor officia, architecto sapiente optio earum.",
-                    "tags" => "newyork,building,street"
-                ]
-            ],
+            "blogs" => $this->service->UIList($page, self::PAGE_LENGTH),
 
-            "trending" => [
-                [
-                    "url" => "/",
-                    "is_trending" => true,
-                    "author" => "Sambit Sarkar",
-                    "author_image_url" => "https://avatars.githubusercontent.com/u/87202351?v=4",
-                    "image_url_potrait" => "https://fastly.picsum.photos/id/299/300/350.jpg?hmac=w9b4w232XL4IUBN3jok3KfxDBkntCT5NdUPUpmnooQY",
-                    "image_url_landscape" => "https://fastly.picsum.photos/id/319/360/160.jpg?hmac=NLWFlVNpsj8z59NQlo7KqTjGlQP2Ab0emA-xqHQ3YAA",
-                    "title" => "Laravel Websockets | Chat Application",
-                    "date" => "October 06, 2022",
-                    "description" => "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi dolor officia, architecto sapiente optio earum.",
-                    "tags" => "newyork,building,street"
-                ],
-                [
-                    "url" => "/",
-                    "is_trending" => true,
-                    "author" => "Sambit Sarkar",
-                    "author_image_url" => "https://avatars.githubusercontent.com/u/87202351?v=4",
-                    "image_url_potrait" => "https://fastly.picsum.photos/id/299/300/350.jpg?hmac=w9b4w232XL4IUBN3jok3KfxDBkntCT5NdUPUpmnooQY",
-                    "image_url_landscape" => "https://fastly.picsum.photos/id/319/360/160.jpg?hmac=NLWFlVNpsj8z59NQlo7KqTjGlQP2Ab0emA-xqHQ3YAA",
-                    "title" => "Laravel Websockets | Chat Application",
-                    "date" => "October 06, 2022",
-                    "description" => "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi dolor officia, architecto sapiente optio earum.",
-                    "tags" => "newyork,building,street"
-                ],
-                [
-                    "url" => "/",
-                    "is_trending" => true,
-                    "author" => "Sambit Sarkar",
-                    "author_image_url" => "https://avatars.githubusercontent.com/u/87202351?v=4",
-                    "image_url_potrait" => "https://fastly.picsum.photos/id/299/300/350.jpg?hmac=w9b4w232XL4IUBN3jok3KfxDBkntCT5NdUPUpmnooQY",
-                    "image_url_landscape" => "https://fastly.picsum.photos/id/319/360/160.jpg?hmac=NLWFlVNpsj8z59NQlo7KqTjGlQP2Ab0emA-xqHQ3YAA",
-                    "title" => "Laravel Websockets | Chat Application",
-                    "date" => "October 06, 2022",
-                    "description" => "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi dolor officia, architecto sapiente optio earum.",
-                    "tags" => "newyork,building,street"
-                ]
-            ],
-            "recent" => [
-                [
-                    "url" => "/",
-                    "is_trending" => true,
-                    "author" => "Sambit Sarkar",
-                    "author_image_url" => "https://avatars.githubusercontent.com/u/87202351?v=4",
-                    "image_url_potrait" => "https://fastly.picsum.photos/id/299/300/350.jpg?hmac=w9b4w232XL4IUBN3jok3KfxDBkntCT5NdUPUpmnooQY",
-                    "image_url_landscape" => "https://fastly.picsum.photos/id/319/360/160.jpg?hmac=NLWFlVNpsj8z59NQlo7KqTjGlQP2Ab0emA-xqHQ3YAA",
-                    "title" => "Laravel Websockets | Chat Application",
-                    "date" => "October 06, 2022",
-                    "description" => "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi dolor officia, architecto sapiente optio earum.",
-                    "tags" => "newyork,building,street"
-                ],
-                [
-                    "url" => "/",
-                    "is_trending" => true,
-                    "author" => "Sambit Sarkar",
-                    "author_image_url" => "https://avatars.githubusercontent.com/u/87202351?v=4",
-                    "image_url_potrait" => "https://fastly.picsum.photos/id/299/300/350.jpg?hmac=w9b4w232XL4IUBN3jok3KfxDBkntCT5NdUPUpmnooQY",
-                    "image_url_landscape" => "https://fastly.picsum.photos/id/319/360/160.jpg?hmac=NLWFlVNpsj8z59NQlo7KqTjGlQP2Ab0emA-xqHQ3YAA",
-                    "title" => "Laravel Websockets | Chat Application",
-                    "date" => "October 06, 2022",
-                    "description" => "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi dolor officia, architecto sapiente optio earum.",
-                    "tags" => "newyork,building,street"
-                ],
-                [
-                    "url" => "/",
-                    "is_trending" => true,
-                    "author" => "Sambit Sarkar",
-                    "author_image_url" => "https://avatars.githubusercontent.com/u/87202351?v=4",
-                    "image_url_potrait" => "https://fastly.picsum.photos/id/299/300/350.jpg?hmac=w9b4w232XL4IUBN3jok3KfxDBkntCT5NdUPUpmnooQY",
-                    "image_url_landscape" => "https://fastly.picsum.photos/id/319/360/160.jpg?hmac=NLWFlVNpsj8z59NQlo7KqTjGlQP2Ab0emA-xqHQ3YAA",
-                    "title" => "Laravel Websockets | Chat Application",
-                    "date" => "October 06, 2022",
-                    "description" => "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi dolor officia, architecto sapiente optio earum.",
-                    "tags" => "newyork,building,street"
-                ]
-            ],
+            "trending" => $this->service->UIList($page, self::PAGE_LENGTH, [
+                "is_trending" => 1
+            ]),
+            "recent" => $this->service->UIListRecent(),
 
             "tags" => [
                 [
@@ -144,9 +49,32 @@ class HomeService
                 ],
                 [
                     "url" => "/",
-                    "name" => "COURSE       "
+                    "name" => "COURSE"
                 ],
             ]
         ];
+    }
+
+    private function getPageNumber(Request $request, int $totalCount): int
+    {
+        $maxNumberOfPages = ceil($totalCount / self::PAGE_LENGTH);
+        $page = $request->query("page", 1);
+
+        try {
+            $request->validate(
+                [
+                    "page" => "numeric|min:1|max: $maxNumberOfPages"
+                ],
+                [
+                    "page" => $page
+                ]
+            );
+
+        } catch (ValidationException $error) {
+            Log::error($error->getMessage());
+            abort(404);
+        }
+
+        return (int) $page;
     }
 }
