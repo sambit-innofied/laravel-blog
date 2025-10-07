@@ -1,8 +1,12 @@
 <?php
 
+use App\Models\Blogs;
+use App\Models\BlogTags;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
+    
     return view('home', [
         "title" => "My Blog",
         "page_length" => 10,
