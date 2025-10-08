@@ -15,4 +15,12 @@ mix.js(
         "resources/js/app.js"
     ],
     "public/js/app.js"
-)
+).version();
+
+mix.js(
+    [
+        "resources/js/app.js",
+        "resources/js/dashboard.js"
+    ],
+    "public/js/dashboard.js"
+).version();

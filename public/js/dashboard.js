@@ -18273,6 +18273,7 @@ var __webpack_exports__ = {};
 // This entry needs to be wrapped in an IIFE because it needs to be in strict mode.
 (() => {
 "use strict";
+var __webpack_exports__ = {};
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
   \*****************************/
@@ -18287,6 +18288,25 @@ $(document).ready(function () {
     window.location.href = url;
   });
 });
+})();
+
+// This entry needs to be wrapped in an IIFE because it needs to be isolated against other entry modules.
+(() => {
+/*!***********************************!*\
+  !*** ./resources/js/dashboard.js ***!
+  \***********************************/
+$("#logoutButton").click(function (e) {
+  $.get({
+    url: "/api/logout",
+    success: function success() {
+      window.location.href = "/";
+    },
+    error: function error() {}
+  });
+});
+
+// $(".navbar-nav a.active").removeClass("active");
+// $(".navbar-nav a[href='" + location.href + "']").addClass("active");
 })();
 
 /******/ })()
