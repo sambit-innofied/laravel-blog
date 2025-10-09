@@ -8,5 +8,5 @@ $("#logoutButton").click(function(e) {
     });
 });
 
-// $(".navbar-nav a.active").removeClass("active");
-// $(".navbar-nav a[href='" + location.href + "']").addClass("active");    
+$(".navbar-nav a.active").removeClass("active");
+$(".navbar-nav a[href='" + location.href + "']").addClass("active");    

@@ -22,5 +22,6 @@ mix.js(
         "resources/js/app.js",
         "resources/js/dashboard.js"
     ],
+    
     "public/js/dashboard.js"
 ).version();
