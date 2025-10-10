@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace App\Modules\Users;
 
+use App\Http\Requests\UserUpdateRequest;
+use App\Http\Resources\UserResource;
+
 class UsersService
 {
     public function __construct(
-        private readonly UsersDatatableRepository $datatableRepository
+        private readonly UsersDatatableRepository $datatableRepository,
+        private readonly UsersRepository $repository
     ) {
     }
     public function index(array $data): array
@@ -25,4 +29,21 @@ class UsersService
         }, $result["data"]);
         return $result;
     }
+
+    public function get(int $id): UserResource
+    {
+        $user = $this->repository->get($id);
+        return new UserResource($user);
+    }
+    public function update(UserUpdateRequest $request): UserResource
+    {
+        $user = $this->repository->update($request);
+        return new UserResource($user);
+    }
+    public function delete(int $id)
+    {
+        $this->repository->delete($id);
+    }
+
+
 }

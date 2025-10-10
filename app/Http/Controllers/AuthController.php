@@ -33,7 +33,7 @@ class AuthController extends Controller
             $user = Auth::user();
             return response()->json([
                 "user" => $user,
-                "token" => $user->createToken("MyToken")->plainTextToken
+                "token" => $user->createToken($user->email)->plainTextToken
             ]);
         }
         return back()->withErrors([

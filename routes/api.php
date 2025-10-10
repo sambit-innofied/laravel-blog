@@ -12,11 +12,12 @@ Route::middleware(["web"])->group(function () {
 });
 
 Route::middleware(["auth:sanctum"])->group(function () {
-    
+
     Route::get("/dashboard/users/index", [UsersController::class, "index"]);
+    Route::get("/dashboard/users/{id}", [UsersController::class, "get"])->where("id", "[0-9]+");
     // Route::get("/dashboard/users/{id}", [UsersController::class, "get"])->where("id", "[0-9]+");
-    // Route::delete("/dashboard/users/{id}", [UsersController::class, "delete"])->where("id", "[0-9]+");
-    // Route::post("/dashboard/users", [UsersController::class, "update"]);
+    Route::delete("/dashboard/users/{id}", [UsersController::class, "delete"])->where("id", "[0-9]+");
+    Route::post("/dashboard/users", [UsersController::class, "update"]);
 
     // Route::get("/dashboard/blogs/index", [BlogsController::class, "index"]);
     // Route::get("/dashboard/blogs/{id}", [BlogsController::class, "get"])->where("id", "[0-9]+");
