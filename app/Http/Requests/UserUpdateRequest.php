@@ -22,8 +22,10 @@ class UserUpdateRequest extends FormRequest
 
     public function data($key = null, $default = null): array
     {
+        $id = $this->input("id", null);
         return [
-            "id" => $this->input("id", null),
+
+            "id" => ($id === null) ? null : (int) $id,
             "name" => $this->input("name"),
             "email" => $this->input("email"),
             "password" => $this->input("password", null),

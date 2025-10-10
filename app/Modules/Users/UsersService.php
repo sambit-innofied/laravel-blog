@@ -6,6 +6,7 @@ namespace App\Modules\Users;
 
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Resources\UserResource;
+use App\Modules\Datatable\Buttons;
 
 class UsersService
 {
@@ -24,7 +25,9 @@ class UsersService
             $data["search"],
         );
         $result["data"] = array_map(function ($row) {
-            $row["actions"] = "";
+            $eventId = $row["id"];
+            $row["actions"] = Buttons::actionButton("editItem($eventId)","Edit", "btn-dark");
+            $row["actions"] .= Buttons::actionButton("deleteItem($eventId)","delete", "btn-danger");
             return $row;
         }, $result["data"]);
         return $result;
