@@ -37,5 +37,7 @@ class UsersDatatableRepository extends DatatableRepository
     protected string $joinQuery = "";
     protected string $where = "users.id > 0";
 
-    
+    public function getTotalRecords(): int{
+        return User::count();
+    }
 }

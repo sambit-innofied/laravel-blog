@@ -21,7 +21,7 @@ class HomeService
 
     public function home(Request $request): array
     {
-        $totalCount = $this->service->getToTotalCount();
+        $totalCount = $this->service->getTotalCount();
         $page = $this->getPageNumber($request, $totalCount);
         $blogs = $this->service->UIList($page, self::PAGE_LENGTH);
 

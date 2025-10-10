@@ -47,9 +47,12 @@ class DatatableRepository
         $result = json_decode(json_encode(DB::select($query["sql"], $query["bindings"])), true);
         return [
             "recordsFiltered" => json_decode(json_encode(DB::selectOne($query["countSql"], $query["bindings"])), true)["total"],
-            "recordsTotal" => User::count(),
+            "recordsTotal" => $this->getTotalRecords(),
             "data" => $result
         ];
+    }
+    public function getTotalRecords():int{
+        return 0;
     }
 
     private function buildSQL(
