@@ -29,7 +29,12 @@ class AuthController extends Controller
     {
         if (Auth::attempt($request->data())) {
             $request->session()->regenerate();
-            return response()->json();
+
+            $user = Auth::user();
+            return response()->json([
+                "user" => $user,
+                "token" => $user->createToken("MyToken")->plainTextToken
+            ]);
         }
         return back()->withErrors([
             "email" => "The provided credentials do not match our records.",

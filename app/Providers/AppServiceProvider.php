@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\Sanctum\PersonalAccessToken;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Sanctum\Sanctum;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,5 +24,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
+        Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
+        VerifyCsrfToken::except('/api/*');
     }
 }

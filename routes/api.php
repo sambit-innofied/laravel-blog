@@ -8,10 +8,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(["web"])->group(function () {
     Route::post("/login", [AuthController::class, "login"]);
+    Route::get("/logout", [AuthController::class, "logout"])->middleware(["auth"]);
 });
 
-Route::middleware(["web", "auth"])->group(function () {
-    Route::get("/logout", [AuthController::class, "logout"]);
+Route::middleware(["auth:sanctum"])->group(function () {
+    
     Route::get("/dashboard/users/index", [UsersController::class, "index"]);
     // Route::get("/dashboard/users/{id}", [UsersController::class, "get"])->where("id", "[0-9]+");
     // Route::delete("/dashboard/users/{id}", [UsersController::class, "delete"])->where("id", "[0-9]+");
